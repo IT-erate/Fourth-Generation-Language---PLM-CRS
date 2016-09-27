@@ -23,7 +23,7 @@ require 'db/connect.php';
     <script src="js/respond.min.js"></script>
     
   </head>
-  <body>
+  <body onLoad="generateChart(1);">
   	<div class="jumbotron">	
   		<center>
 			<h1><strong>STATISTICAL REPORTS</strong></h1>
@@ -42,29 +42,134 @@ require 'db/connect.php';
   			<li><a href="#FourthYear" data-toggle="tab">Fourth Year</a></li>
   		</ul>
 
-  		<div class="tab-content">
-  			<div class="tab-pane fade in active" id="FirstYear">	
-          <canvas id="myChart"></canvas> 
-          <button type="button" id="donwload" onclick="downloadPDF();">Export to PDF</button>
-  			</div>
+    		<div class="tab-content">
+    			<div class="tab-pane fade in active" id="FirstYear">
 
-  			<div class="tab-pane fade" id="SecondYear">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false" >
+              <!-- Indicators -->
+              <ol class="carousel-indicators" >
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+                <li data-target="#myCarousel" data-slide-to="3"></li>
+              </ol>
+
+              <!-- Wrapper for slides -->
+              <div class="carousel-inner" role="listbox">
+                <div class="item active" > 
+                    <canvas id="myChart" class="chart"></canvas>
+
+                    <?php $arr_firstsem = array(10,10,10); json_encode($arr_firstsem);  ?>
+
+                    <br>
+                    <div class="carousel-caption">
+                      <center><button type="button" id="donwload" onclick="downloadPDF();">Export to PDF</button></center>
+                      <br>
+                    </div>
+                </div>  
+
+                <div class="item">
+                  <canvas id="myChart" class="chart"></canvas>
+
+                    <?php $arr_secondsem = array(4,3,7); json_encode($arr_secondsem);  ?>
+
+                    <br>
+                    <div class="carousel-caption">
+                      <center><button type="button" id="donwload" onclick="downloadPDF();">Export to PDF</button></center>
+                      <br>
+                    </div>
+                </div>
+                
+              
+                <div class="item">
+                  <canvas id="myChart" class="chart"></canvas>
+
+                    <?php $arr_thirdsem = array(4,1,6); json_encode($arr_thirdsem);  ?>
+
+                    <br>
+                    <div class="carousel-caption">
+                      <center><button type="button" id="donwload" onclick="downloadPDF();">Export to PDF</button></center>
+                      <br>
+                    </div>
+                </div>
+
+                <div class="item">
+                  <canvas id="myChart" class="chart"></canvas>
+
+                    <?php $arr_fourthsem = array(9,9,9); json_encode($arr_fourthsem);  ?>
+
+                    <br>
+                    <div class="carousel-caption">
+                      <center><button type="button" id="donwload" onclick="downloadPDF();">Export to PDF</button></center>
+                      <br>
+                    </div>
+                </div>
+              </div>
+
+            <!-- Left and right controls -->
+            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+        </div>
+  		</div>
+
+  		<div class="tab-pane fade" id="SecondYear">
   				<p>Second Year</p>
-  			</div>
+  		</div>
 
-  			<div class="tab-pane fade" id="ThirdYear">
-  				<p>Third Year</p>
-  			</div>
+  		<div class="tab-pane fade" id="ThirdYear">
+  			<p>Third Year</p>
+  		</div>
 
-  			<div class="tab-pane fade" id="FourthYear">
-  				<p>Fourth Year</p>
-  			</div>
+  		<div class="tab-pane fade" id="FourthYear">
+  			<p>Fourth Year</p>
+  		</div>
 
   		</div>
   	</div>
 
     <script>
-      
+
+      $('.carousel').on('slid.bs.carousel', function () {
+
+        // This variable contains all kinds of data and methods related to the carousel
+        var carouselData = $(this).data('bs.carousel');
+        // EDIT: Doesn't work in Boostrap >= 3.2
+        //var currentIndex = carouselData.getActiveIndex();
+        var currentIndex = carouselData.getItemIndex(carouselData.$element.find('.item.active'));
+
+        
+
+
+        //var total = carouselData.$items.length;
+
+        
+      });
+
+      function generateChart(x)
+      {
+        switch(x)
+        {
+          case 1:
+            var arr_pass = <?php echo json_encode($arr_firstsem) ?>;
+            break;
+          case 2:
+            var arr_pass = <?php echo json_encode($arr_secondsem) ?>;
+            break;
+          case 3:
+            var arr_pass = <?php echo json_encode($arr_thirdsem) ?>;
+            break;
+          case 4:
+            var arr_pass = <?php echo json_encode($arr_fourthsem) ?>;
+            break;
+        }
+        
+
         var ctx = document.getElementById("myChart");
         var myChart = new Chart(ctx, {
         type: 'bar',
@@ -73,7 +178,7 @@ require 'db/connect.php';
             datasets: [
             {
                 label: '# of Passed',
-                data: [12, 19, 3],
+                data: [ arr_pass[0],arr_pass[1],arr_pass[2] ],
                 backgroundColor: ['lightgreen','lightgreen','lightgreen'],
                 borderColor: ['green','green','green'],
                 borderWidth: 1
@@ -97,10 +202,11 @@ require 'db/connect.php';
                  }
               }
         });
-    
-      
+      }
+             
       //donwload pdf from original canvas
-      function downloadPDF() {
+      function downloadPDF() 
+      {
         var canvas = document.querySelector('#myChart');
 
         //creates canvas variable
