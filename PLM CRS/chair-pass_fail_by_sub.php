@@ -2,7 +2,37 @@
 error_reporting(0);
 require 'db/connect.php';
 
+
+$arr_firstyear = array(
+                        array(array(1,2),array(3,4),array(5,6)),
+                        array(array(7,8),array(9,10),array(11,12)),
+                        array(array(13,14),array(15,16),array(17,18)),
+                        array(array(19,20),array(21,22),array(23,24))
+                      );
+
+$arr_secondyear = array(
+                        array(array(11,21),array(31,14),array(51,16)),
+                        array(array(71,18),array(19,10),array(11,12)),
+                        array(array(23,14),array(13,13),array(47,14)),
+                        array(array(13,23),array(23,22),array(23,25))
+                      );
+
+$arr_thirdyear = array(
+                        array(array(11,21),array(3,4),array(5,6)),
+                        array(array(72,8),array(9,10),array(11,12)),
+                        array(array(23,13),array(13,16),array(37,18)),
+                        array(array(12,20),array(21,23),array(33,24))
+                      );
+
+$arr_fourthyear = array(
+                        array(array(13,2),array(32,24),array(25,6)),
+                        array(array(2,22),array(29,10),array(21,12)),
+                        array(array(13,14),array(15,16),array(27,18)),
+                        array(array(29,20),array(21,22),array(23,22))
+                      );
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -14,6 +44,8 @@ require 'db/connect.php';
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- This is where all the CSS code are -->
     <link href="css/basic_template.css" rel="stylesheet" type="text/css"></script>
 
     <script src="js/chart.bundle.min.js"></script>
@@ -23,7 +55,7 @@ require 'db/connect.php';
     <script src="js/respond.min.js"></script>
     
   </head>
-  <body onLoad="generateChart(1);">
+  <body onload="generateChart();">
   	<div class="jumbotron">	
   		<center>
 			<h1><strong>STATISTICAL REPORTS</strong></h1>
@@ -45,73 +77,61 @@ require 'db/connect.php';
     		<div class="tab-content">
     			<div class="tab-pane fade in active" id="FirstYear">
 
-            <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false" >
+            <div id="myCarousel1" class="carousel slide" data-ride="carousel" data-interval="false" >
               <!-- Indicators -->
               <ol class="carousel-indicators" >
-                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                <li data-target="#myCarousel" data-slide-to="1"></li>
-                <li data-target="#myCarousel" data-slide-to="2"></li>
-                <li data-target="#myCarousel" data-slide-to="3"></li>
+                <li data-target="#myCarousel1" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel1" data-slide-to="1"></li>
+                <li data-target="#myCarousel1" data-slide-to="2"></li>
+                <li data-target="#myCarousel1" data-slide-to="3"></li>
               </ol>
 
               <!-- Wrapper for slides -->
               <div class="carousel-inner" role="listbox">
                 <div class="item active" > 
-                    <canvas id="myChart" class="chart"></canvas>
-
-                    <?php $arr_firstsem = array(10,10,10); json_encode($arr_firstsem);  ?>
-
+                    <canvas id="myChart1" class="chart"></canvas>
                     <br>
                     <div class="carousel-caption">
-                      <center><button type="button" id="donwload" onclick="downloadPDF();">Export to PDF</button></center>
+                      <center><button type="button" id="donwload" onclick="downloadPDF(0);">Export to PDF</button></center>
                       <br>
                     </div>
                 </div>  
 
                 <div class="item">
-                  <canvas id="myChart" class="chart"></canvas>
-
-                    <?php $arr_secondsem = array(4,3,7); json_encode($arr_secondsem);  ?>
-
+                  <canvas id="myChart2" class="chart"></canvas>
                     <br>
                     <div class="carousel-caption">
-                      <center><button type="button" id="donwload" onclick="downloadPDF();">Export to PDF</button></center>
+                      <center><button type="button" id="donwload" onclick="downloadPDF(1);">Export to PDF</button></center>
                       <br>
                     </div>
                 </div>
                 
               
                 <div class="item">
-                  <canvas id="myChart" class="chart"></canvas>
-
-                    <?php $arr_thirdsem = array(4,1,6); json_encode($arr_thirdsem);  ?>
-
+                  <canvas id="myChart3" class="chart"></canvas>
                     <br>
                     <div class="carousel-caption">
-                      <center><button type="button" id="donwload" onclick="downloadPDF();">Export to PDF</button></center>
+                      <center><button type="button" id="donwload" onclick="downloadPDF(2);">Export to PDF</button></center>
                       <br>
                     </div>
                 </div>
 
                 <div class="item">
-                  <canvas id="myChart" class="chart"></canvas>
-
-                    <?php $arr_fourthsem = array(9,9,9); json_encode($arr_fourthsem);  ?>
-
+                  <canvas id="myChart4" class="chart"></canvas>
                     <br>
                     <div class="carousel-caption">
-                      <center><button type="button" id="donwload" onclick="downloadPDF();">Export to PDF</button></center>
+                      <center><button type="button" id="donwload" onclick="downloadPDF(3);">Export to PDF</button></center>
                       <br>
                     </div>
                 </div>
               </div>
 
             <!-- Left and right controls -->
-            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+            <a class="left carousel-control" href="#myCarousel1" role="button" data-slide="prev">
               <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
               <span class="sr-only">Previous</span>
             </a>
-            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+            <a class="right carousel-control" href="#myCarousel1" role="button" data-slide="next">
               <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
               <span class="sr-only">Next</span>
             </a>
@@ -119,15 +139,189 @@ require 'db/connect.php';
   		</div>
 
   		<div class="tab-pane fade" id="SecondYear">
-  				<p>Second Year</p>
+  			<div id="myCarousel2" class="carousel slide" data-ride="carousel" data-interval="false" >
+              <!-- Indicators -->
+              <ol class="carousel-indicators" >
+                <li data-target="#myCarousel2" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel2" data-slide-to="1"></li>
+                <li data-target="#myCarousel2" data-slide-to="2"></li>
+                <li data-target="#myCarousel2" data-slide-to="3"></li>
+              </ol>
+
+              <!-- Wrapper for slides -->
+              <div class="carousel-inner" role="listbox">
+                <div class="item active" > 
+                    <canvas id="myChart5" class="chart"></canvas>
+                    <br>
+                    <div class="carousel-caption">
+                      <center><button type="button" id="donwload" onclick="downloadPDF(4);">Export to PDF</button></center>
+                      <br>
+                    </div>
+                </div>  
+
+                <div class="item">
+                  <canvas id="myChart6" class="chart"></canvas>
+                    <br>
+                    <div class="carousel-caption">
+                      <center><button type="button" id="donwload" onclick="downloadPDF(5);">Export to PDF</button></center>
+                      <br>
+                    </div>
+                </div>
+                
+              
+                <div class="item">
+                  <canvas id="myChart7" class="chart"></canvas>
+                    <br>
+                    <div class="carousel-caption">
+                      <center><button type="button" id="donwload" onclick="downloadPDF(6);">Export to PDF</button></center>
+                      <br>
+                    </div>
+                </div>
+
+                <div class="item">
+                  <canvas id="myChart8" class="chart"></canvas>
+                    <br>
+                    <div class="carousel-caption">
+                      <center><button type="button" id="donwload" onclick="downloadPDF(7);">Export to PDF</button></center>
+                      <br>
+                    </div>
+                </div>
+              </div>
+
+            <!-- Left and right controls -->
+            <a class="left carousel-control" href="#myCarousel2" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel2" role="button" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+        </div>
   		</div>
 
   		<div class="tab-pane fade" id="ThirdYear">
-  			<p>Third Year</p>
+  			<div id="myCarousel3" class="carousel slide" data-ride="carousel" data-interval="false" >
+              <!-- Indicators -->
+              <ol class="carousel-indicators" >
+                <li data-target="#myCarousel3" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel3" data-slide-to="1"></li>
+                <li data-target="#myCarousel3" data-slide-to="2"></li>
+                <li data-target="#myCarousel3" data-slide-to="3"></li>
+              </ol>
+
+              <!-- Wrapper for slides -->
+              <div class="carousel-inner" role="listbox">
+                <div class="item active" > 
+                    <canvas id="myChart9" class="chart"></canvas>
+                    <br>
+                    <div class="carousel-caption">
+                      <center><button type="button" id="donwload" onclick="downloadPDF(8);">Export to PDF</button></center>
+                      <br>
+                    </div>
+                </div>  
+
+                <div class="item">
+                  <canvas id="myChart10" class="chart"></canvas>
+                    <br>
+                    <div class="carousel-caption">
+                      <center><button type="button" id="donwload" onclick="downloadPDF(9);">Export to PDF</button></center>
+                      <br>
+                    </div>
+                </div>
+                
+              
+                <div class="item">
+                  <canvas id="myChart11" class="chart"></canvas>
+                    <br>
+                    <div class="carousel-caption">
+                      <center><button type="button" id="donwload" onclick="downloadPDF(10);">Export to PDF</button></center>
+                      <br>
+                    </div>
+                </div>
+
+                <div class="item">
+                  <canvas id="myChart12" class="chart"></canvas>
+                    <br>
+                    <div class="carousel-caption">
+                      <center><button type="button" id="donwload" onclick="downloadPDF(11);">Export to PDF</button></center>
+                      <br>
+                    </div>
+                </div>
+              </div>
+
+            <!-- Left and right controls -->
+            <a class="left carousel-control" href="#myCarousel3" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel3" role="button" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+        </div>
   		</div>
 
   		<div class="tab-pane fade" id="FourthYear">
-  			<p>Fourth Year</p>
+  			<div id="myCarousel4" class="carousel slide" data-ride="carousel" data-interval="false" >
+              <!-- Indicators -->
+              <ol class="carousel-indicators" >
+                <li data-target="#myCarousel4" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel4" data-slide-to="1"></li>
+                <li data-target="#myCarousel4" data-slide-to="2"></li>
+                <li data-target="#myCarousel4" data-slide-to="3"></li>
+              </ol>
+
+              <!-- Wrapper for slides -->
+              <div class="carousel-inner" role="listbox">
+                <div class="item active" > 
+                    <canvas id="myChart13" class="chart"></canvas>
+                    <br>
+                    <div class="carousel-caption">
+                      <center><button type="button" id="donwload" onclick="downloadPDF(12);">Export to PDF</button></center>
+                      <br>
+                    </div>
+                </div>  
+
+                <div class="item">
+                  <canvas id="myChart14" class="chart"></canvas>
+                    <br>
+                    <div class="carousel-caption">
+                      <center><button type="button" id="donwload" onclick="downloadPDF(13);">Export to PDF</button></center>
+                      <br>
+                    </div>
+                </div>
+                
+              
+                <div class="item">
+                  <canvas id="myChart15" class="chart"></canvas>
+                    <br>
+                    <div class="carousel-caption">
+                      <center><button type="button" id="donwload" onclick="downloadPDF(14);">Export to PDF</button></center>
+                      <br>
+                    </div>
+                </div>
+
+                <div class="item">
+                  <canvas id="myChart16" class="chart"></canvas>
+                    <br>
+                    <div class="carousel-caption">
+                      <center><button type="button" id="donwload" onclick="downloadPDF(15);">Export to PDF</button></center>
+                      <br>
+                    </div>
+                </div>
+              </div>
+
+            <!-- Left and right controls -->
+            <a class="left carousel-control" href="#myCarousel4" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel4" role="button" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+        </div>
   		</div>
 
   		</div>
@@ -135,79 +329,80 @@ require 'db/connect.php';
 
     <script>
 
-      $('.carousel').on('slid.bs.carousel', function () {
-
-        // This variable contains all kinds of data and methods related to the carousel
-        var carouselData = $(this).data('bs.carousel');
-        // EDIT: Doesn't work in Boostrap >= 3.2
-        //var currentIndex = carouselData.getActiveIndex();
-        var currentIndex = carouselData.getItemIndex(carouselData.$element.find('.item.active'));
-
-        
-
-
-        //var total = carouselData.$items.length;
-
-        
-      });
-
-      function generateChart(x)
+      //function that will generate all 12 charts for the department
+      function generateChart()
       {
-        switch(x)
-        {
-          case 1:
-            var arr_pass = <?php echo json_encode($arr_firstsem) ?>;
-            break;
-          case 2:
-            var arr_pass = <?php echo json_encode($arr_secondsem) ?>;
-            break;
-          case 3:
-            var arr_pass = <?php echo json_encode($arr_thirdsem) ?>;
-            break;
-          case 4:
-            var arr_pass = <?php echo json_encode($arr_fourthsem) ?>;
-            break;
-        }
+        var arr_id = [
+                      "myChart1", "myChart2", "myChart3", "myChart4",
+                      "myChart5", "myChart6", "myChart7", "myChart8",
+                      "myChart9", "myChart10", "myChart11", "myChart12",
+                      "myChart13", "myChart14", "myChart15", "myChart16"
+                     ];
+
+        var arr_data = [<?php echo json_encode($arr_firstyear); ?>,
+                        <?php echo json_encode($arr_secondyear); ?>,
+                        <?php echo json_encode($arr_thirdyear); ?>,
+                        <?php echo json_encode($arr_fourthyear); ?> ];
         
+        var ctr = 0;
 
-        var ctx = document.getElementById("myChart");
-        var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ["Information Resource Management","System Analysis and Design","Fourth Generation Languages"],
-            datasets: [
-            {
-                label: '# of Passed',
-                data: [ arr_pass[0],arr_pass[1],arr_pass[2] ],
-                backgroundColor: ['lightgreen','lightgreen','lightgreen'],
-                borderColor: ['green','green','green'],
-                borderWidth: 1
-            },
+        for(i=0;i<4;i++)
+        {
+          for(j=0;j<4;j++)
+          {
+              var ctx = document.getElementById(arr_id[ctr]);
 
-            {
-              label: '# of Failed',
-              data: [8, 1, 17],
-              backgroundColor: ['pink','pink','pink'],
-              borderColor: ['red','red','red'],
-              borderWidth: 1
-            }]
-          },
-          options: {
-              scales: {
-                  yAxes: [{
-                      ticks: {
-                          beginAtZero:true
+              ctr++; 
+
+              var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: ["Information Resource Management","System Analysis and Design","Fourth Generation Languages"],
+                  datasets: [
+                  {
+                      label: '# of Passed',
+                      data: [ arr_data[i][j][0][0], arr_data[i][j][1][0], arr_data[i][j][2][0] ],
+                      backgroundColor: ['lightgreen','lightgreen','lightgreen'],
+                      borderColor: ['green','green','green'],
+                      borderWidth: 1
+                  },
+
+                  {
+                    label: '# of Failed',
+                    data: [arr_data[i][j][0][1], arr_data[i][j][1][1], arr_data[i][j][2][1]],
+                    backgroundColor: ['pink','pink','pink'],
+                    borderColor: ['red','red','red'],
+                    borderWidth: 1
+                  }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                             }
+                         }]
                        }
-                   }]
-                 }
-              }
-        });
+                    }
+              });
+            }
+        }
       }
+          
              
       //donwload pdf from original canvas
-      function downloadPDF() 
+      function downloadPDF(number) 
       {
-        var canvas = document.querySelector('#myChart');
+        alert(number);
+
+        var arr_id = [
+                      "#myChart1", "#myChart2", "#myChart3", "#myChart4",
+                      "#myChart5", "#myChart6", "#myChart7", "#myChart8",
+                      "#myChart9", "#myChart10", "#myChart11", "#myChart12",
+                      "#myChart13", "#myChart14", "#myChart15", "#myChart16"
+                     ];
+
+        var canvas = document.querySelector(arr_id[number]);
 
         //creates canvas variable
         var canvasImg = canvas.toDataURL("image/png", 1.0);
